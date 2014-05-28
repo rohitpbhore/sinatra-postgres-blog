@@ -12,9 +12,11 @@ ActiveRecord::Base.establish_connection(
   :encoding => 'utf8'
 )
 
+class Post < ActiveRecord::Base
+end
 
 get "/" do
-  @posts = post.order("created_at DESC")
+  @posts = Post.order("created_at DESC")
   redirect "/new" if @posts.empty?
   erb :index
 end
@@ -24,7 +26,7 @@ get "/new" do
 end
 
 post "/new" do
-  @post = post.new(params[:post])
+  @post = Post.new(params[:post])
   if @post.save
     redirect "post/#{@post.id}"
   else
@@ -32,7 +34,8 @@ post "/new" do
   end
 end
 
+
 get "/post/:id" do
-  @post = post.find_by_id(params[:id])
+  @post = Post.find_by_id(params[:id])
   erb :post
 end
